@@ -9,94 +9,15 @@
 <body>
   <header class="site-header">
     <div class="container header-content">
-      <div>
-        <p class="eyebrow">Compound Mechanism</p>
-        <h1>Supplement Library</h1>
-        <p class="subtitle">Explore supplement mechanisms organized by physiological focus.</p>
-      </div>
-      <nav class="site-nav" aria-label="Primary">
-        <a href="#library">Library</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </nav>
+      <p class="eyebrow">Compound Mechanism</p>
+      <h1>Supplement Library</h1>
+      <p class="subtitle">Select a bottle to reveal the mechanism.</p>
     </div>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="container hero-content">
-        <div>
-          <h2>Find the right mechanism</h2>
-          <p>
-            This catalog is a starting point for exploring supplement mechanisms.
-            We will add deeper filters, richer content, and personalization next.
-          </p>
-        </div>
-        <div class="hero-card">
-          <h3>Quick stats</h3>
-          <dl>
-            <div>
-              <dt>Entries</dt>
-              <dd id="entryCount">--</dd>
-            </div>
-            <div>
-              <dt>Categories</dt>
-              <dd id="categoryCount">--</dd>
-            </div>
-          </dl>
-        </div>
-      </div>
-    </section>
-
-    <section id="library" class="library">
-      <div class="container">
-        <div class="section-header">
-          <div>
-            <h2>Library</h2>
-            <p>Browse supplements and click a card to view the mechanism detail.</p>
-          </div>
-          <div class="controls" aria-label="Library filters">
-            <label class="field">
-              <span>Search (coming soon)</span>
-              <input type="search" placeholder="Search supplements" disabled />
-            </label>
-            <label class="field">
-              <span>Category (coming soon)</span>
-              <select disabled>
-                <option>All categories</option>
-              </select>
-            </label>
-          </div>
-        </div>
-        <div id="grid" class="grid" aria-live="polite"></div>
-      </div>
-    </section>
-
-    <section id="about" class="about">
-      <div class="container">
-        <h2>About</h2>
-        <p>
-          This site is designed as a lightweight, static catalog so it can be hosted anywhere.
-          We will expand it with richer visuals and interactive tools next.
-        </p>
-      </div>
-    </section>
-
-    <section id="contact" class="contact">
-      <div class="container">
-        <h2>Contact</h2>
-        <p>Need updates or want to contribute? This section will be wired up next.</p>
-        <button type="button" class="primary" disabled>Get in touch</button>
-      </div>
-    </section>
+  <main class="library-shell">
+    <div id="grid" class="grid" aria-live="polite"></div>
   </main>
-
-  <footer class="site-footer">
-    <div class="container footer-content">
-      <p>© 2024 Compound Mechanism</p>
-      <p>Built as a static experience for fast access.</p>
-    </div>
-  </footer>
 
   <dialog id="modal" aria-labelledby="mName" aria-describedby="mMech">
     <div class="top">
@@ -104,7 +25,7 @@
         <div id="mName" class="name"></div>
         <div id="mCat" class="cat"></div>
       </div>
-      <button id="closeBtn" type="button">Close</button>
+      <button id="closeBtn" type="button" class="ghost">Close</button>
     </div>
     <hr />
     <div id="mMech" class="mech"></div>

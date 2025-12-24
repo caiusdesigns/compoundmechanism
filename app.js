@@ -4,8 +4,6 @@ const closeBtn = document.getElementById("closeBtn");
 const mName = document.getElementById("mName");
 const mCat = document.getElementById("mCat");
 const mMech = document.getElementById("mMech");
-const entryCount = document.getElementById("entryCount");
-const categoryCount = document.getElementById("categoryCount");
 
 if (closeBtn) {
   closeBtn.onclick = () => modal.close();
@@ -16,8 +14,6 @@ async function main() {
   if (!res.ok) throw new Error("Failed to load library.json: " + res.status);
   const items = await res.json();
 
-  const categories = new Set();
-
   items.sort(
     (a, b) =>
       (a.category || "").localeCompare(b.category || "") ||
@@ -25,15 +21,14 @@ async function main() {
   );
 
   for (const item of items) {
-    if (item.category) {
-      categories.add(item.category);
-    }
-
-    const card = document.createElement("div");
+    const card = document.createElement("button");
     card.className = "card";
+    card.type = "button";
     card.innerHTML = `
-      <p class="name">${escapeHtml(item.name)}</p>
-      <p class="cat">${escapeHtml(item.category)}</p>
+      <span class="bottle">
+        <span class="label">${escapeHtml(item.name)}</span>
+      </span>
+      <span class="cat">${escapeHtml(item.category)}</span>
     `;
     card.onclick = () => {
       mName.textContent = item.name || "";
@@ -42,14 +37,6 @@ async function main() {
       modal.showModal();
     };
     grid.appendChild(card);
-  }
-
-  if (entryCount) {
-    entryCount.textContent = items.length.toString();
-  }
-
-  if (categoryCount) {
-    categoryCount.textContent = categories.size.toString();
   }
 }
 
