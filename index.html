@@ -4,84 +4,112 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Supplement Library</title>
-  <style>
-    body { font-family: system-ui, -apple-system, sans-serif; margin: 24px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
-    .card { border: 1px solid #ddd; border-radius: 12px; padding: 12px; cursor: pointer; }
-    .card:hover { border-color: #999; }
-    .name { font-weight: 650; margin: 0 0 6px; }
-    .cat { font-size: 12px; opacity: 0.7; margin: 0; }
-    dialog { width: min(720px, 92vw); border: none; border-radius: 14px; padding: 16px; }
-    dialog::backdrop { background: rgba(0,0,0,.35); }
-    .mech { line-height: 1.45; }
-    .top { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
-    button { cursor:pointer; }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <h1>Supplement Library</h1>
-  <div id="grid" class="grid"></div>
+  <header class="site-header">
+    <div class="container header-content">
+      <div>
+        <p class="eyebrow">Compound Mechanism</p>
+        <h1>Supplement Library</h1>
+        <p class="subtitle">Explore supplement mechanisms organized by physiological focus.</p>
+      </div>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#library">Library</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-  <dialog id="modal">
+  <main>
+    <section class="hero">
+      <div class="container hero-content">
+        <div>
+          <h2>Find the right mechanism</h2>
+          <p>
+            This catalog is a starting point for exploring supplement mechanisms.
+            We will add deeper filters, richer content, and personalization next.
+          </p>
+        </div>
+        <div class="hero-card">
+          <h3>Quick stats</h3>
+          <dl>
+            <div>
+              <dt>Entries</dt>
+              <dd id="entryCount">--</dd>
+            </div>
+            <div>
+              <dt>Categories</dt>
+              <dd id="categoryCount">--</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section id="library" class="library">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2>Library</h2>
+            <p>Browse supplements and click a card to view the mechanism detail.</p>
+          </div>
+          <div class="controls" aria-label="Library filters">
+            <label class="field">
+              <span>Search (coming soon)</span>
+              <input type="search" placeholder="Search supplements" disabled />
+            </label>
+            <label class="field">
+              <span>Category (coming soon)</span>
+              <select disabled>
+                <option>All categories</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div id="grid" class="grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="container">
+        <h2>About</h2>
+        <p>
+          This site is designed as a lightweight, static catalog so it can be hosted anywhere.
+          We will expand it with richer visuals and interactive tools next.
+        </p>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <div class="container">
+        <h2>Contact</h2>
+        <p>Need updates or want to contribute? This section will be wired up next.</p>
+        <button type="button" class="primary" disabled>Get in touch</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>© 2024 Compound Mechanism</p>
+      <p>Built as a static experience for fast access.</p>
+    </div>
+  </footer>
+
+  <dialog id="modal" aria-labelledby="mName" aria-describedby="mMech">
     <div class="top">
       <div>
         <div id="mName" class="name"></div>
         <div id="mCat" class="cat"></div>
       </div>
-      <button id="closeBtn">Close</button>
+      <button id="closeBtn" type="button">Close</button>
     </div>
     <hr />
     <div id="mMech" class="mech"></div>
   </dialog>
 
-  <script>
-    const grid = document.getElementById("grid");
-    const modal = document.getElementById("modal");
-    const closeBtn = document.getElementById("closeBtn");
-    const mName = document.getElementById("mName");
-    const mCat = document.getElementById("mCat");
-    const mMech = document.getElementById("mMech");
-
-    closeBtn.onclick = () => modal.close();
-
-    async function main() {
-      const res = await fetch("./library.json", { cache: "no-store" });
-      if (!res.ok) throw new Error("Failed to load library.json: " + res.status);
-      const items = await res.json();
-
-      // Optional: sort by category then name
-      items.sort((a,b) =>
-        (a.category || "").localeCompare(b.category || "") ||
-        (a.name || "").localeCompare(b.name || "")
-      );
-
-      for (const item of items) {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-          <p class="name">${escapeHtml(item.name)}</p>
-          <p class="cat">${escapeHtml(item.category)}</p>
-        `;
-        card.onclick = () => {
-          mName.textContent = item.name || "";
-          mCat.textContent = item.category || "";
-          mMech.textContent = item.mechanism || "";
-          modal.showModal();
-        };
-        grid.appendChild(card);
-      }
-    }
-
-    function escapeHtml(s="") {
-      return String(s).replace(/[&<>"']/g, c => ({
-        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-      }[c]));
-    }
-
-    main().catch(err => {
-      document.body.insertAdjacentHTML("beforeend", `<pre>${err}</pre>`);
-      console.error(err);
-    });
-  </script>
+  <script src="app.js" defer></script>
 </body>
 </html>
